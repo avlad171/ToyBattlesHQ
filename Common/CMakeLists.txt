@@ -1,10 +1,5 @@
 project(Common LANGUAGES CXX)
 
-find_package(boost_json CONFIG REQUIRED)
-
-add_subdirectory(${CMAKE_SOURCE_DIR}/ExternalLibraries/libbcrypt
-                 ${CMAKE_BINARY_DIR}/libbcrypt_build)
-
 file(GLOB_RECURSE COMMON_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_CURRENT_LIST_DIR}/*.cpp
 )
@@ -23,20 +18,17 @@ target_include_directories(Common
     PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
-        ${CMAKE_SOURCE_DIR}/ExternalLibraries/libbcrypt/include
         ${CMAKE_SOURCE_DIR}/ExternalLibraries
         ${CMAKE_SOURCE_DIR}/Common/include/Utils
+        ${Boost_INCLUDE_DIRS}
 )
 
 target_link_libraries(Common
-    PUBLIC   
-        cryptopp::cryptopp
-        unofficial::mariadb-connector-cpp::mariadbcpp
-        bcrypt          # libbcrypt
-        Boost::json
+    PUBLIC
+        #cryptopp::cryptopp
+        #unofficial::mariadb-connector-cpp::mariadbcpp
 )
 
-if(WIN32)
-    target_link_libraries(Common PUBLIC "bcrypt.lib" ws2_32 wsock32)
+if (WIN32)
+    target_link_libraries(Common PUBLIC wsock32 ws2_32)
 endif()
-
