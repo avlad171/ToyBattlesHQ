@@ -18,12 +18,19 @@ target_include_directories(CastServer PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-find_package(directxmath CONFIG REQUIRED)
+if(APPLE) # on MacOS I need to manually build the maria db connector which doesn't have makefile module and I need to manually link its dependencies
+    target_link_libraries(CastServer
+    PUBLIC
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        z
+    )
+endif ()
 
 target_link_libraries(CastServer
     PUBLIC
         Common
-        Boost::system
+        mariadb-connector-cpp::mariadb-connector-cpp
 )
 
 
