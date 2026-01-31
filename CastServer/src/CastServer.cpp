@@ -4,7 +4,6 @@
 #include "../include/Handlers/PlayerPositionHandler.h"
 #include "../include/Handlers/IpcMainHandlers.h"
 #include "../include/Handlers/WeaponKillHandlers.h"
-#include <chrono>
 
 namespace Cast
 {
@@ -21,9 +20,9 @@ namespace Cast
 
 	CastServer::CastServer(ioContext& io_context, const std::string& serverIp, std::uint16_t port, std::uint16_t mainPort, std::uint16_t serverId)
 		: m_io_context{ io_context }
-		, m_acceptor{ io_context, tcp::endpoint(asio::ip::address::from_string(serverIp), port) }
+		, m_acceptor{ io_context, tcp::endpoint(asio::ip::make_address(serverIp), port) }
 		, m_serverId{ serverId }
-		, m_mainServerAcceptor{ io_context, tcp::endpoint(asio::ip::address::from_string(Common::Utils::SetupParser::getInstance().getSelfCastServerInfo().ip), mainPort) }
+		, m_mainServerAcceptor{ io_context, tcp::endpoint(asio::ip::make_address(Common::Utils::SetupParser::getInstance().getSelfCastServerInfo().ip), mainPort) }
 	{
 		using namespace std::chrono;
 		
@@ -378,8 +377,8 @@ namespace Cast
 				{
 					asio::ip::tcp::endpoint remoteEndpoint = m_mainSocket->remote_endpoint();
 
-					if (remoteEndpoint.address() == asio::ip::address::from_string(Common::Utils::SetupParser::getInstance().getSelfMainServerInfo().ip) ||
-						remoteEndpoint.address() == asio::ip::address::from_string("::1"))
+					if (remoteEndpoint.address() == asio::ip::make_address(Common::Utils::SetupParser::getInstance().getSelfMainServerInfo().ip) ||
+						remoteEndpoint.address() == asio::ip::make_address("::1"))
 					{
 						auto mainIpc = std::make_shared<Common::Network::Session>(std::move(*m_mainSocket), nullptr);
 						mainIpc->m_checkValidSession = false;
