@@ -2,10 +2,15 @@
 #define PLAYER_POSITION_STRUCTURE_H
 
 #include <cstdint>
-#include <directxmath/DirectXPackedVector.h>
+//#include <directxmath/DirectXPackedVector.h>
 #include "AntiCheat/Event.h"
 #include "Macros.h"
 
+namespace DirectX {
+    namespace PackedVector {
+        typedef uint16_t HALF;
+    }
+}
 namespace Cast
 {
 	namespace Structures
