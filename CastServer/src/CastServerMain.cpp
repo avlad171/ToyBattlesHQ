@@ -12,9 +12,13 @@
 
 void printInitialInformation()
 {
-	auto const time = std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
-	auto const time_s = std::format("{:%Y-%m-%d %X}", time);
-	std::cout << "[Info] Cast server initialized on " << time_s << "\n\n";
+	auto now = std::chrono::system_clock::now();
+	std::time_t t = std::chrono::system_clock::to_time_t(now);
+
+	std::tm tm{};
+	localtime_r(&t, &tm);
+
+	std::cout << "[Info] Cast server initialized on " << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << "\n\n";
 	std::cout << "[Info] Initializing constant database maps...\n";
 	const std::string cdbItemInfoPath = "../ExternalLibraries/cgd_original/ENG";
 	const std::string cdbMapInfoName = "mapinfo.cdb";
