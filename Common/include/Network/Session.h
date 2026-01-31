@@ -70,7 +70,7 @@ namespace Common
 			inline static SessionIdManager sessionIdManager{ 500 };
 
 		public:
-			Session() = default;
+			Session() = delete;
 
 			explicit Session(tcp::socket&& socket, std::function<void(std::size_t)> fnct)
 				: m_socket{ std::move(socket) }

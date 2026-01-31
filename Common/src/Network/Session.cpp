@@ -14,17 +14,7 @@
 #include "../../../MainServer/include/Structures/AccountInfo/MainAccountUniqueId.h"
 #include <include/Utils/SetupParser.h>
 
-#include <cryptopp/dh.h>
-#include <cryptopp/osrng.h>
-#include <cryptopp/secblock.h>
-#include <cryptopp/pem.h>
-#include <cryptopp/hex.h>
-#include <cryptopp/cryptlib.h>
-#include <cryptopp/eccrypto.h>
-#include <cryptopp/osrng.h>
-#include <cryptopp/secblock.h>
-#include <cryptopp/oids.h> 
-#include <cstring>
+//#include <cryptopp/pem.h>
 
 
 namespace Common
