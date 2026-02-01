@@ -18,24 +18,24 @@ target_include_directories(CastServer PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-if(APPLE) # on MacOS I need to manually build the maria db connector which doesn't have makefile module and I need to manually link its dependencies
+if(UNIX) # on MacOS I need to manually build the maria db connector which doesn't have makefile module and I need to manually link its dependencies
     target_link_libraries(CastServer
     PUBLIC
+        Common
         OpenSSL::SSL
         OpenSSL::Crypto
         z
+        mariadb-connector-cpp::mariadb-connector-cpp
     )
-endif ()
 
-target_link_libraries(CastServer
+elseif (WIN32)
+    target_link_libraries(CastServer
     PUBLIC
         Common
-        mariadb-connector-cpp::mariadb-connector-cpp
-)
-
-
-if (WIN32)
-    target_link_libraries(CastServer PUBLIC wsock32 ws2_32)
+        unofficial::mariadb-connector-cpp::mariadbcpp
+        wsock32
+        ws2_32
+    )
 endif()
 
 set_target_properties(CastServer PROPERTIES

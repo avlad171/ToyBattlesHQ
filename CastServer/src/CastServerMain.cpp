@@ -6,6 +6,7 @@
 #include "../include/CastServer.h"
 #include "../include/ConstantDatabase/CdbSingleton.h"
 #include "../include/ConstantDatabase/Structures/CdbMapInfo.h"
+#include "ConstantDatabase/Structures/CdbWeapon.h"
 #include <Utils/SetupParser.h>
 #include <AntiCheat/AntiCheat.h>
 
@@ -16,11 +17,15 @@ void printInitialInformation()
 	std::time_t t = std::chrono::system_clock::to_time_t(now);
 
 	std::tm tm{};
+#if defined(_WIN32)
+	localtime_s(&tm, &t);
+#else
 	localtime_r(&t, &tm);
+#endif
 
 	std::cout << "[Info] Cast server initialized on " << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << "\n\n";
 	std::cout << "[Info] Initializing constant database maps...\n";
-	const std::string cdbItemInfoPath = "./ExternalLibraries/cgd_original/ENG";
+	const std::string cdbItemInfoPath = "../ExternalLibraries/cgd_original/ENG";
 	const std::string cdbMapInfoName = "mapinfo.cdb";
 	using mapInfo = Common::ConstantDatabase::CdbSingleton<Common::ConstantDatabase::CdbMapInfo>;
 	using weaponInfo = Common::ConstantDatabase::CdbSingleton<Common::ConstantDatabase::CdbWeapon>;
