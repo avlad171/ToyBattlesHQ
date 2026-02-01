@@ -20,10 +20,13 @@ void printInitialInformation()
 
 	std::cout << "[Info] Cast server initialized on " << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << "\n\n";
 	std::cout << "[Info] Initializing constant database maps...\n";
-	const std::string cdbItemInfoPath = "../ExternalLibraries/cgd_original/ENG";
+	const std::string cdbItemInfoPath = "./ExternalLibraries/cgd_original/ENG";
 	const std::string cdbMapInfoName = "mapinfo.cdb";
 	using mapInfo = Common::ConstantDatabase::CdbSingleton<Common::ConstantDatabase::CdbMapInfo>;
+	using weaponInfo = Common::ConstantDatabase::CdbSingleton<Common::ConstantDatabase::CdbWeapon>;
 	mapInfo::initialize(cdbItemInfoPath, cdbMapInfoName);
+	weaponInfo::initialize(cdbItemInfoPath, "weaponinfo.cdb");
+	auto weaponTable = Common::ConstantDatabase::CdbSingleton<Common::ConstantDatabase::CdbWeapon>::getInstance();
 	std::cout << "[Info] Constant database successfully initialized.\n";
 }
 

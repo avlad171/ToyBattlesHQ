@@ -76,7 +76,6 @@ namespace Common
 		public:
 			constexpr Cdb() = default;
 
-		public:
 			constexpr void parse(const std::filesystem::path& directory, const std::string& file_name)
 			{
 				parse_helper<std::unordered_map<std::uint32_t, T>>(directory, file_name, m_entries_one_to_one);
