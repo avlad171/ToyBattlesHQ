@@ -35,12 +35,12 @@ else()
 endif()
 
 find_package(OpenSSL REQUIRED)
-#find_package(cryptopp CONFIG REQUIRED)
 find_package(range-v3 CONFIG REQUIRED)
 if(APPLE)
     find_package(mariadb-connector-cpp CONFIG REQUIRED)
 else ()
     find_package(unofficial-mariadb-connector-cpp CONFIG REQUIRED)
+    find_package(cryptopp CONFIG REQUIRED)
 endif ()
 
 include_directories(PUBLIC ${CMAKE_SOURCE_DIR}/ExternalLibraries)
