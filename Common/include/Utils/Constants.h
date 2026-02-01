@@ -19,6 +19,8 @@ namespace Common
 		constexpr inline std::uint32_t M2C_assassinModeInfo = 7;
 		constexpr inline std::uint32_t M2C_playerTeamInfoBatch = 8;
 		constexpr inline std::uint32_t M2C_Invisibility = 9;
+		constexpr inline std::uint32_t C2M_getPlayerItems = 10;
+		constexpr inline std::uint32_t C2M_getItemStats = 11;
 
 		// Rest
 		constexpr inline std::uint16_t maxSessionsPerServer = 500;

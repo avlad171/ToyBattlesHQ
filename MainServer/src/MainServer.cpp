@@ -104,6 +104,8 @@ namespace Main
 		CN::Session::addCallback<CN::PacketType::UNECRYPTED, CN::Session>(Common::Constants::C2M_updatePlayerState, [&](const CN::UnecryptedPacket& request,
 			std::shared_ptr<CN::Session> session) { Main::Handlers::getPlayerStateUpdate(request, session, m_sessionsManager); });
 
+		CN::Session::addCallback<CN::PacketType::UNECRYPTED, CN::Session>(Common::Constants::C2M_getPlayerItems, [&](const CN::UnecryptedPacket& request,
+			std::shared_ptr<CN::Session> session) { Main::Handlers::getPlayerItems(request, session, m_sessionsManager); });
 
 		// Missing:
 		// 73 => Disconnect request

@@ -21,6 +21,7 @@
 #include <ConstantDatabase/Structures/CdbEffectInfo.h>
 #include <ConstantDatabase/Structures/CdbCollectionInfo.h>
 #include <ConstantDatabase/Structures/CdbMissionEventInfo.h>
+#include "ConstantDatabase/Structures/CdbWeapon.h"
 
 #include "../include/Detail/Utilities.h"
 #include "Utils/Logger.h"
@@ -53,6 +54,7 @@ void initializeCdbFiles()
 	Common::ConstantDatabase::CdbSingleton<Common::ConstantDatabase::CdbCollectionInfo>::initialize(cdbItemInfoPath, "collectioninfo.cdb");
     Common::ConstantDatabase::CdbSingleton<Common::ConstantDatabase::CdbEffectInfo>::initialize(cdbItemInfoPath, "effectinfo.cdb");
     Common::ConstantDatabase::CdbSingleton<Common::ConstantDatabase::CdbEventMissionInfo>::initialize(cdbItemInfoPath, "eventmissioninfo.cdb");
+	Common::ConstantDatabase::CdbSingleton<Common::ConstantDatabase::CdbWeapon>::initialize(cdbItemInfoPath, "weaponinfo.cdb");
 	Common::ConstantDatabase::CdbSingleton<Common::ConstantDatabase::CdbItemWeapon>::initialize(
 		Common::ConstantDatabase::CdbSingleton<Common::ConstantDatabase::CdbItemInfo>::getInstance(),
 		Common::ConstantDatabase::CdbSingleton<Common::ConstantDatabase::CdbWeaponInfo>::getInstance());
