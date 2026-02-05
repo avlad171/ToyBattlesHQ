@@ -13,9 +13,17 @@ int main()
 {
 	Common::Utils::setConsoleTitle(L"Microvolts Auth Server");
 
-	auto const time = std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
-	auto const time_s = std::format("{:%Y-%m-%d %X}", time);
-	Utils::Logger::log("Auth server initialized on " + time_s, Utils::LogType::Info, "AuthServer");
+	auto now = std::chrono::system_clock::now();
+	std::time_t t = std::chrono::system_clock::to_time_t(now);
+
+	std::tm tm{};
+#if defined(_WIN32)
+	localtime_s(&tm, &t);
+#else
+	localtime_r(&t, &tm);
+#endif
+
+	std::cout << "[Info] Auth server initialized on " << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << "\n\n";
 	auto parsedServerInfo = Common::Utils::SetupParser::getInstance().getAuthSetup();
 
 	Utils::Logger::log(std::format("Server Information: IP: {},  Port: {}",
