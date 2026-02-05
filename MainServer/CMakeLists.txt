@@ -29,10 +29,11 @@ target_include_directories(MainServer PUBLIC ${JWT_CPP_INCLUDE_DIRS})
 target_link_libraries(MainServer
     PUBLIC
         Common
-        unofficial::mariadb-connector-cpp::mariadbcpp
+        mariadb-connector-cpp::mariadb-connector-cpp
         OpenSSL::SSL
         OpenSSL::Crypto
-        cryptopp::cryptopp
+        jwt-cpp::jwt-cpp
+        #cryptopp::cryptopp
         range-v3::range-v3
         Boost::json
         ${CURL_LIBRARIES}

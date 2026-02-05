@@ -25,8 +25,8 @@ namespace Common
             }
 
             check_assign(Common::Utils::getLocalIp(), m_localIp, "Could not retrieve local IP!");
-            check_assign(getSelfMainServerInfoImpl(), m_selfMainInfo, "Could not retrieve self main info!");
-            check_assign(getSelfCastServerInfoImpl(), m_selfCastInfo, "Could not retrieve self cast info!");
+            //check_assign(getSelfMainServerInfoImpl(), m_selfMainInfo, "Could not retrieve self main info!");
+            //check_assign(getSelfCastServerInfoImpl(), m_selfCastInfo, "Could not retrieve self cast info!");
             check_assign(getMainServersInfoImpl(), m_mainInfos, "Could not retrieve main servers information!");
             check_assign(getCastServersInfoImpl(), m_castInfos, "Could not retrieve cast servers information!");
             m_authSetup = getAuthSetupImpl();
