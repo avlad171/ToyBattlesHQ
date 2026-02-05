@@ -8,7 +8,7 @@ namespace Auth
 {
 	AuthServer::AuthServer(ioContext& io_context, const std::string& ip, std::uint16_t port)
 		: m_io_context(io_context)
-		, m_acceptor{ io_context, tcp::endpoint(asio::ip::address::from_string(ip), port) }
+		, m_acceptor{ io_context, tcp::endpoint(asio::ip::make_address(ip), port) }
 		, m_database()
 		, m_authService{m_database}
 	{
