@@ -15,8 +15,7 @@ namespace Cast
 {
 	namespace Classes
 	{
-		Room::Room(std::uint64_t hostSessionId, std::shared_ptr<Cast::Network::Session> hostSession)
-		{
+		Room::Room(std::uint64_t hostSessionId, std::shared_ptr<Cast::Network::Session> hostSession): game_state(0) {
 			m_serverId = Common::Utils::SetupParser::getInstance().getSelfCastServerInfo().serverNumber;
 			m_playersVec.push_back(hostSession);
 		}

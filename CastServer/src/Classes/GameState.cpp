@@ -1,4 +1,4 @@
-#include "Classes/AntiCheat.h"
+#include "Classes/GameState.h"
 #include <cmath>
 
 namespace Cast
@@ -13,12 +13,12 @@ namespace Cast
                 );
         }
 
-        AntiCheat::AntiCheat(uint64_t tick)
+        GameState::GameState(uint64_t tick)
         {
             this->tick = tick;
         }
 
-        int AntiCheat::movePlayer(uint64_t tick, unsigned int playerSlot, PlayerPos newPosition)
+        int GameState::movePlayer(uint64_t tick, unsigned int playerSlot, PlayerPos newPosition)
         {
             if (playerSlot > 25)
             {
@@ -34,7 +34,7 @@ namespace Cast
 
             else
             {
-                auto &state = this->gameStates[playerSlot][tick % CIRCULAR_BUFFER_SIZE];
+                auto &state = this->playerStates[playerSlot][tick % CIRCULAR_BUFFER_SIZE];
                 const unsigned int ticksPassed = tick - state.tick;
 
                 const float distance = state.pos.distanceTo(newPosition);
