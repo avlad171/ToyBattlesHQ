@@ -13,6 +13,8 @@
 #include "../Structures/Rest.h"
 #include <random>
 
+#include "GameState.h"
+
 namespace Cast
 {
 	namespace Classes
@@ -28,6 +30,8 @@ namespace Cast
 			std::uint32_t m_serverId{};
 
 			std::vector<Common::Network::UnecryptedPacket> m_pendingPositions;
+
+			GameState game_state;
 
 		public:
 			bool m_hasMatchStarted{};
