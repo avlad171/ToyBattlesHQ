@@ -15,6 +15,12 @@
 #include <Enums/PlayerEnums.h>
 #include <cstdint>
 
+std::string currentUtcTime()
+{
+	//auto now = std::chrono::utc_clock::now(); // on macos error: no member named 'utc_clock' in namespace 'std::chrono'
+	auto now = std::chrono::system_clock::now();
+	return std::format("{:%Y-%m-%d %H:%M:%S}", now);
+}
 
 namespace Auth
 {
@@ -75,13 +81,11 @@ namespace Auth
 					std::unique_ptr<sql::PreparedStatement> alterStmt(con->prepareStatement(alterQueryStr));
 					alterStmt->executeUpdate();
 				}
-				auto now = std::chrono::utc_clock::now();
-				std::string currentUtcTime = std::format("{:%Y-%m-%d %H:%M:%S}", now);
 
 				std::string updateQueryStr = "UPDATE Users SET LastLogged = ?, LastIP = ?, LastIpSalt = ? WHERE AccountID = ?";
 				std::unique_ptr<sql::PreparedStatement> updateStmt(con->prepareStatement(updateQueryStr));
 
-				updateStmt->setString(1, currentUtcTime);
+				updateStmt->setString(1, currentUtcTime());
 				updateStmt->setString(2, ipHash);
 				updateStmt->setString(3, ipSalt);
 				updateStmt->setUInt(4, aid);
@@ -208,8 +212,8 @@ namespace Auth
 				std::string updateQuery = "UPDATE Users SET SuspendedUntil = ?, SuspensionReason = ?, Grade = ? WHERE AccountID = ?";
 				std::unique_ptr<sql::PreparedStatement> updateStmt(con->prepareStatement(updateQuery));
 
-				zoned_time zt{ "UTC", local_seconds{duration_cast<seconds>(system_clock::now().time_since_epoch()) + seconds(9999 * 24 * 60 * 60)} };
-				const std::string bannedUntil = std::format("{:%Y-%m-%d %H:%M:%S}", zt.get_sys_time());
+				//zoned_time zt{ "UTC", local_seconds{duration_cast<seconds>(system_clock::now().time_since_epoch()) + seconds(9999 * 24 * 60 * 60)} };
+				const std::string bannedUntil = currentUtcTime(); //std::format("{:%Y-%m-%d %H:%M:%S}", zt.get_sys_time());
 
 				updateStmt->setString(1, bannedUntil);
 				updateStmt->setString(2, isGraded ? "GRADED_TOO_MANY_FAILED_LOGIN_ATTEMPTS" : "UNGRADED_TOO_MANY_FAILED_LOGIN_ATTEMPTS");
