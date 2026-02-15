@@ -20,6 +20,8 @@ if(UNIX) # on MacOS I need to manually build the maria db connector which doesn'
             z
             mariadb-connector-cpp::mariadb-connector-cpp
             PkgConfig::Cryptopp
+            bcrypt
+            Boost::json
     )
 
 elseif (WIN32)
@@ -27,8 +29,10 @@ elseif (WIN32)
             PUBLIC
             Common
             unofficial::mariadb-connector-cpp::mariadbcpp
+            bcrypt
             wsock32
             ws2_32
+            Boost::json
     )
 endif()
 

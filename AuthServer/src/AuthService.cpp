@@ -166,7 +166,7 @@ namespace Auth
 
 		m_badLoginAttempts.erase(ainfo.ainfoClient.accountId);
 
-		const std::string currentTime = std::format("{:%Y-%m-%d %X}", std::chrono::utc_clock::now());
+		const std::string currentTime = std::format("{:%Y-%m-%d %X}", std::chrono::system_clock::now());
 		if (ainfo.suspendedUntil > currentTime)
 		{
 			m_persistentDatabase.logGameEvent("AuthGradedLogin",
@@ -247,7 +247,7 @@ namespace Auth
 
 		m_badLoginAttempts.erase(ainfo.ainfoClient.accountId);
 
-		const std::string currentTime = std::format("{:%Y-%m-%d %X}", std::chrono::utc_clock::now());
+		const std::string currentTime = std::format("{:%Y-%m-%d %X}", std::chrono::system_clock::now());
 		if (ainfo.suspendedUntil > currentTime)
 		{
 			m_persistentDatabase.logGameEvent("AuthUngradedLogin",
@@ -317,7 +317,7 @@ namespace Auth
 
 	std::uint32_t AuthService::generateAccountKey() const
 	{
-		std::uint32_t value;
+		std::uint32_t value = 0;
 		if (RAND_bytes(reinterpret_cast<unsigned char*>(&value), sizeof(value)) != 1) {
 			// entropy source not available => no cryptographically secure random bytes generated
 			return 0; // account key 0 is default, main server won't accept it

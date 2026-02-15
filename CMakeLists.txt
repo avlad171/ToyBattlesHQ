@@ -36,6 +36,8 @@ endif()
 
 find_package(OpenSSL REQUIRED)
 find_package(range-v3 CONFIG REQUIRED)
+find_package(CURL REQUIRED)
+
 if(APPLE)
     find_package(mariadb-connector-cpp CONFIG REQUIRED)
     find_package(PkgConfig REQUIRED)

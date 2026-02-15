@@ -8,6 +8,9 @@ add_library(Common STATIC
     ${COMMON_SOURCES}
 )
 
+add_subdirectory(${CMAKE_SOURCE_DIR}/ExternalLibraries/libbcrypt
+        ${CMAKE_BINARY_DIR}/libbcrypt_build)
+
 set_target_properties(Common PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/ExternalLibraries/CommonLib
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/ExternalLibraries/CommonLib
@@ -23,11 +26,21 @@ target_include_directories(Common
         ${Boost_INCLUDE_DIRS}
 )
 
-target_link_libraries(Common
-    PUBLIC
-        #cryptopp::cryptopp
-        #unofficial::mariadb-connector-cpp::mariadbcpp
-)
+if(UNIX) # on MacOS PkgConfig::Cryptopp
+    target_link_libraries(Common
+            PUBLIC
+            PkgConfig::Cryptopp
+            curl
+    )
+
+elseif (WIN32)
+    target_link_libraries(Common
+            PUBLIC
+            cryptopp::cryptopp
+            curl
+    )
+endif()
+
 
 if (WIN32)
     target_link_libraries(Common PUBLIC wsock32 ws2_32)
