@@ -33,7 +33,7 @@ namespace Auth
 		std::shared_ptr<Common::Network::Session> session)
 	{
 		auto& authSetup = Common::Utils::SetupParser::getInstance().getAuthSetup();
-		
+
 		if (ainfo.secret.empty())
 		{
 			m_persistentDatabase.logGameEvent("AuthGradedLogin",
@@ -146,7 +146,7 @@ namespace Auth
 					"Account lock attempt failed for account " + std::to_string(ainfo.ainfoClient.accountId), "CRITICAL");
 
 				m_emailDispatcher.sendAlertAsync("[CRITICAL Alert] TB - Graded Account LOCK FAIL!",
-					"Critical Level Alert: Graded Account(ID: " + std::to_string(ainfo.ainfoClient.accountId) + 
+					"Critical Level Alert: Graded Account(ID: " + std::to_string(ainfo.ainfoClient.accountId) +
 					") could NOT BE LOCKED after too many wrong login attempts, lock the account manually!",
 					[accountId = ainfo.ainfoClient.accountId, this]() {
 						m_persistentDatabase.logGameEvent("EmailGraded",
@@ -195,7 +195,7 @@ namespace Auth
 
 
 	Auth::Enums::Login AuthService::authorizeUngraded(const Auth::Structures::BasicAccountInfo& ainfo,const std::optional<std::string>& token,const std::string& plainPw)
-	{	
+	{
 		if (!validatePassword(plainPw, ainfo.hashedPassword))
 		{
 			return Auth::Enums::Login::INCORRECT;
@@ -242,7 +242,7 @@ namespace Auth
 
 	std::uint32_t AuthService::generateAccountKey() const
 	{
-		std::uint32_t value;
+		std::uint32_t value = 0;
 		if (RAND_bytes(reinterpret_cast<unsigned char*>(&value), sizeof(value)) != 1) {
 			// entropy source not available => no cryptographically secure random bytes generated
 			return 0; // account key 0 is default, main server won't accept it
@@ -294,7 +294,7 @@ namespace Auth
 		return false;
 	}
 
-	std::expected<Auth::Structures::BasicAccountInfo, Auth::Enums::Login> 
+	std::expected<Auth::Structures::BasicAccountInfo, Auth::Enums::Login>
 		AuthService::login(const std::string& username, const std::string& password, const std::string& plainIp, std::uint_least16_t port, const std::string& plainHwid,
 			std::shared_ptr<Common::Network::Session> session)
 	{
