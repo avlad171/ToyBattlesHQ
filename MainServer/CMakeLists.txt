@@ -13,11 +13,9 @@ add_executable(MainServer
 
 find_package(CURL REQUIRED)
 
-target_include_directories(MainServer
-    PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/include
-)
+target_include_directories(MainServer PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include)
 
+if(APPLE)
 target_link_libraries(MainServer
     PUBLIC
         Common
@@ -31,10 +29,35 @@ target_link_libraries(MainServer
         Boost::json
         ${CURL_LIBRARIES}
 )
-
-target_include_directories(AuthServer PRIVATE
-    ${CURL_INCLUDE_DIRS}
+elseif(UNIX)
+target_link_libraries(MainServer
+        PUBLIC
+        Common
+        mariadb-connector-cpp::mariadb-connector-cpp
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        z
+        jwt-cpp::jwt-cpp
+        bcrypt
+        range-v3::range-v3
+        Boost::json
+        ${CURL_LIBRARIES}
 )
+else()
+target_link_libraries(MainServer
+        PUBLIC
+        Common
+        unofficial::mariadb-connector-cpp::mariadbcpp
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        z
+        jwt-cpp::jwt-cpp
+        bcrypt
+        range-v3::range-v3
+        Boost::json
+        ${CURL_LIBRARIES}
+)
+endif()
 
 if (WIN32)
     target_link_libraries(MainServer PUBLIC wsock32 ws2_32)
@@ -59,12 +82,6 @@ add_custom_command(
     COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/generate_command_includes.py
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
 )
-
-if (MSVC)
-    target_compile_options(MainServer PUBLIC /W0)
-else()
-    target_compile_options(MainServer PUBLIC -w)
-endif()
 
 set_target_properties(MainServer PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}

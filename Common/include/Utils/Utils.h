@@ -398,21 +398,12 @@ namespace Common
 			if (datetimeStr.empty()) return 0;
 
 			std::istringstream ss(datetimeStr);
-#ifdef __APPLE__
 			std::tm tm{};
 			ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
 
 			if (ss.fail()) return 0;
 
 			return static_cast<uint64_t>(std::mktime(&tm));
-#else
-			sys_seconds tp;
-			ss >> parse("%Y-%m-%d %H:%M:%S", tp);
-
-			if (ss.fail()) return 0;
-
-			return static_cast<uint64_t>(tp.time_since_epoch().count());
-#endif
 		}
 
 		inline std::string epochToDatetime(uint64_t secondsSinceEpoch) noexcept
