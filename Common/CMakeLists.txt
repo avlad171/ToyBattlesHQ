@@ -1,7 +1,6 @@
 project(Common LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "-fexperimental-library")
 
 file(GLOB_RECURSE COMMON_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_CURRENT_LIST_DIR}/*.cpp
@@ -35,7 +34,12 @@ if(APPLE) # on MacOS PkgConfig::Cryptopp
             PkgConfig::Cryptopp
             curl
     )
-
+elseif(UNIX)
+    target_link_libraries(Common
+            PUBLIC
+            PkgConfig::Cryptopp
+            curl
+    )
 else()
     target_link_libraries(Common
             PUBLIC

@@ -6,6 +6,7 @@
 #define MICROVOLTS_EMULATOR_V2_GAMESTATE_H
 
 #include <vector>
+#include <inttypes.h>
 
 namespace Cast
 {
