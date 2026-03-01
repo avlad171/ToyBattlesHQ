@@ -1142,7 +1142,7 @@ namespace Main
 				asyncWrite(m_packet);
 
 				
-				Main::Structures::Giftbox giftbox{ m_player.getAccountInfo().accountID, static_cast<time32_t>(std::time(0)), itemId, itemId, itemId };
+				Main::Structures::Giftbox giftbox{ m_player.getAccountInfo().accountID, static_cast<uint32_t>(std::time(0)), itemId, itemId, itemId };
 				std::memcpy(giftbox.nickname, Common::Constants::teamString.c_str(), Common::Constants::teamString.size());
 				std::memcpy(giftbox.message, giftDescription.c_str(), giftDescription.size());
 				addGiftboxReceived(giftbox);
@@ -1311,7 +1311,7 @@ namespace Main
 			m_packet.setCommand(307, 0, 0, 0);
 			const auto& accountInfo = m_player.getAccountInfo();
 			struct CurrencyData { std::uint32_t rt; std::uint32_t mp; std::uint32_t coins; };
-			CurrencyData message{ accountInfo.rockTotens, accountInfo.microPoints, accountInfo.coins };
+			CurrencyData message{ static_cast<uint32_t>(accountInfo.rockTotens), static_cast<uint32_t>(accountInfo.microPoints), static_cast<uint32_t>(accountInfo.coins) };
 			m_packet.setData(reinterpret_cast<std::uint8_t*>(&message), sizeof(std::uint32_t) * 3);
 			asyncWrite(m_packet);
 		}
@@ -1377,8 +1377,13 @@ namespace Main
 		{
 			using namespace std::chrono;
 			using namespace std::literals;
-			zoned_time zt{ "UTC", local_seconds{duration_cast<seconds>(system_clock::now().time_since_epoch()) + seconds(daysDuration * 24 * 60 * 60)}};
-			const std::string bannedUntil = std::format("{:%Y-%m-%d %H:%M:%S}", zt.get_sys_time());
+			//zoned_time zt{ "UTC", local_seconds{duration_cast<seconds>(system_clock::now().time_since_epoch()) + seconds(daysDuration * 24 * 60 * 60)}};
+			//const std::string bannedUntil = std::format("{:%Y-%m-%d %H:%M:%S}", zt.get_sys_time());
+
+			auto tp = system_clock::now() + seconds(daysDuration * 24 * 60 * 60);
+			auto tp_sec = time_point_cast<seconds>(tp);
+
+			const std::string bannedUntil = std::format("{:%Y-%m-%d %H:%M:%S}", tp_sec);
 
 			if (m_scheduler.immediatePersist(std::source_location::current(), 
 				&Main::Persistence::PersistentDatabase::updateSuspension, m_player.getAccountInfo().nickname,
@@ -1397,8 +1402,12 @@ namespace Main
 		{
 			using namespace std::chrono;
 			using namespace std::literals;
-			zoned_time zt{ "UTC", local_seconds{duration_cast<seconds>(system_clock::now().time_since_epoch()) + seconds(daysDuration * 24 * 60 * 60)}};
-			const std::string mutedUntil = std::format("{:%Y-%m-%d %H:%M:%S}", zt.get_sys_time());
+			//zoned_time zt{ "UTC", local_seconds{duration_cast<seconds>(system_clock::now().time_since_epoch()) + seconds(daysDuration * 24 * 60 * 60)}};
+			//const std::string mutedUntil = std::format("{:%Y-%m-%d %H:%M:%S}", zt.get_sys_time());
+			auto tp = system_clock::now() + seconds(daysDuration * 24 * 60 * 60);
+			auto tp_sec = time_point_cast<seconds>(tp);
+
+			const std::string mutedUntil = std::format("{:%Y-%m-%d %H:%M:%S}", tp_sec);
 			if (m_scheduler.immediatePersist(std::source_location::current(), 
 				&Main::Persistence::PersistentDatabase::updateMute, m_player.getAccountInfo().nickname,
 				mutedUntil, reason, mutedBy, Main::Enums::GRADE_MOD))
@@ -1423,8 +1432,13 @@ namespace Main
 		{
 			using namespace std::chrono;
 			using namespace std::literals;
-			zoned_time zt{ "UTC", local_seconds{duration_cast<seconds>(system_clock::now().time_since_epoch()) + seconds(daysDuration * 24 * 60 * 60)}};
-			const std::string disabledUntil = std::format("{:%Y-%m-%d %H:%M:%S}", zt.get_sys_time());
+			//zoned_time zt{ "UTC", local_seconds{duration_cast<seconds>(system_clock::now().time_since_epoch()) + seconds(daysDuration * 24 * 60 * 60)}};
+			//const std::string disabledUntil = std::format("{:%Y-%m-%d %H:%M:%S}", zt.get_sys_time());
+
+			auto tp = system_clock::now() + seconds(daysDuration * 24 * 60 * 60);
+			auto tp_sec = time_point_cast<seconds>(tp);
+
+			const std::string disabledUntil = std::format("{:%Y-%m-%d %H:%M:%S}", tp_sec);
 			if (m_scheduler.immediatePersist(std::source_location::current(),
 				&Main::Persistence::PersistentDatabase::updateRoomCreationDisabledUntil, m_player.getAccountInfo().nickname,
 				disabledUntil))
@@ -1439,10 +1453,15 @@ namespace Main
 		{
 			using namespace std::chrono;
 			using namespace std::literals;
-			zoned_time zt{ "UTC",
-				local_seconds{duration_cast<seconds>(system_clock::now().time_since_epoch()) + seconds(daysDuration * 24 * 60 * 60)}
-			};
-			const std::string disabledUntil = std::format("{:%Y-%m-%d %H:%M:%S}", zt.get_sys_time());
+			//zoned_time zt{ "UTC",
+			//	local_seconds{duration_cast<seconds>(system_clock::now().time_since_epoch()) + seconds(daysDuration * 24 * 60 * 60)}
+			//};
+			//const std::string disabledUntil = std::format("{:%Y-%m-%d %H:%M:%S}", zt.get_sys_time());
+
+			auto tp = system_clock::now() + seconds(daysDuration * 24 * 60 * 60);
+			auto tp_sec = time_point_cast<seconds>(tp);
+
+			const std::string disabledUntil = std::format("{:%Y-%m-%d %H:%M:%S}", tp_sec);
 
 			if (m_scheduler.immediatePersist(std::source_location::current(),
 				&Main::Persistence::PersistentDatabase::updateVotekickDisabledUntil,
@@ -1677,7 +1696,7 @@ namespace Main
 		{
 			START_BENCHMARK
 			using std::chrono::system_clock;
-			using std::chrono::current_zone;
+			//using std::chrono::current_zone;
 
 			const std::string& latestOpenedRewardDate = m_player.getLatestWeeklyRewardDate();
 			const std::string todayDate = std::format("{:%F}", system_clock::now());
@@ -1720,7 +1739,7 @@ namespace Main
 		{
 			START_BENCHMARK
 			using std::chrono::system_clock;
-			using std::chrono::current_zone;
+			//using std::chrono::current_zone;
 
 			const std::string& latestOpenedRewardDate = m_player.getLatestMonthlyRewardDate();
 			const std::string todayDate = std::format("{:%F}", system_clock::now());

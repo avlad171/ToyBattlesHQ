@@ -248,7 +248,7 @@ namespace Main
 
 					// Let all the other players join the room with the JoinRoom handler, where roomNumber = otherTargetLeader.getPlayer().getRoomNumber()
 					const std::uint16_t roomNumber = otherTargetLeader->getPlayer().getRoomNumber();
-					Main::ClientData::RoomInfo joinInfo{ roomNumber - 1, 2 };
+					Main::ClientData::RoomInfo joinInfo{ static_cast<uint16_t>(roomNumber - 1), 2 };
 					response.setCommand(140, 0, 0, 0);
 					response.setData(reinterpret_cast<std::uint8_t*>(&joinInfo), sizeof(joinInfo));
 

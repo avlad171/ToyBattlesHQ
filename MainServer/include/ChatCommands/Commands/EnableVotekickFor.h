@@ -56,11 +56,14 @@ namespace Main
 				{
 					using namespace std::chrono;
 					using namespace std::literals;
-					zoned_time zt{ "UTC",
-						local_seconds{duration_cast<seconds>(system_clock::now().time_since_epoch()) + seconds(m_durationDays * 24 * 60 * 60)}
-					};
-					const std::string votekickDisabledUntil = std::format("{:%Y-%m-%d %H:%M:%S}", zt.get_sys_time());
+					//zoned_time zt{ "UTC",
+					//	local_seconds{duration_cast<seconds>(system_clock::now().time_since_epoch()) + seconds(m_durationDays * 24 * 60 * 60)}
+					//};
+					//const std::string votekickDisabledUntil = std::format("{:%Y-%m-%d %H:%M:%S}", zt.get_sys_time());
+					auto tp = system_clock::now() + seconds(m_durationDays * 24 * 60 * 60);
+					auto tp_sec = time_point_cast<seconds>(tp);
 
+					const std::string votekickDisabledUntil = std::format("{:%Y-%m-%d %H:%M:%S}", tp_sec);
 					if (!scheduler.immediatePersist(
 						std::source_location::current(),
 						&Main::Persistence::PersistentDatabase::updateVotekickDisabledUntil,

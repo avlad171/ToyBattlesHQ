@@ -63,7 +63,7 @@ namespace Main
 							return;
 						}
 
-						Main::ClientData::RoomInfo joinInfo{ targetRoomNum - 1 };
+						Main::ClientData::RoomInfo joinInfo{ static_cast<uint16_t>(targetRoomNum - 1) };
 						response.setCommand(140, 0, 0, 0);
 						response.setData(reinterpret_cast<std::uint8_t*>(&joinInfo), sizeof(joinInfo));
 

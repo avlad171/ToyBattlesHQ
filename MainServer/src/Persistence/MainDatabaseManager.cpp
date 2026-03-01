@@ -3977,7 +3977,7 @@ namespace Main
                     }
                 }
 
-                Main::Structures::Giftbox giftbox{ accountId, static_cast<time32_t>(std::time(0)), itemId, itemId, itemId };
+                Main::Structures::Giftbox giftbox{ accountId, static_cast<uint32_t>(std::time(0)), itemId, itemId, itemId };
                 std::memcpy(giftbox.nickname, Common::Constants::teamString.c_str(), Common::Constants::teamString.size());
                 std::memcpy(giftbox.message, giftDescription.c_str(), giftDescription.size());
 

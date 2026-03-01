@@ -93,7 +93,8 @@ namespace Main
 
                 if (leaderSession->getPlayer().getRoomNumber() >= Common::Constants::clanRoomNumberStart)
                 { // the clan is in a room vs another clan
-                    const Main::ClientData::RoomInfo joinInfo{ leaderSession->getPlayer().getRoomNumber() - 1, 1 };
+                    uint16_t room = leaderSession->getPlayer().getRoomNumber();
+                    const Main::ClientData::RoomInfo joinInfo{ static_cast<uint16_t>(leaderSession->getPlayer().getRoomNumber() - 1), 1 };
                     response.setCommand(140, 0, 0, 0);
                     response.setData(reinterpret_cast<const std::uint8_t*>(&joinInfo), sizeof(joinInfo));
                     Main::Handlers::handleClanRoomJoin(response, session, roomsManager, selfClanRoom->getTeam());

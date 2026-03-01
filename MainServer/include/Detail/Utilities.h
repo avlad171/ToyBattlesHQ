@@ -7,7 +7,7 @@
 #include "Utils/Utils.h"
 #include "Utils/Constants.h"
 #include <chrono>
-#include <format>
+#include <charconv>
 #include <array>
 #include <vector>
 #include <source_location>
@@ -124,8 +124,8 @@ namespace Main
 				{
 					std::uint32_t itemID = 0;
 					auto [ptr, ec] = std::from_chars(line.data(), line.data() + line.size(), itemID);
-					if (ec == std::errc()) 
-						predefinedItems.push_back(itemID); 
+					if (ec == std::errc())
+						predefinedItems.push_back(itemID);
 				}
 				if (predefinedItems.empty())
 				{

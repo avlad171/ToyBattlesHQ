@@ -103,7 +103,7 @@ namespace Main
 
 			if (const auto entry = cdbItemWeapons::getInstance().getEntry(itemId); entry)
 			{
-				const std::array<std::uint32_t, 3> effects = { entry->ii_effect_1, entry->ii_effect_2, entry->ii_effect_3 };
+				const std::array<std::int32_t, 3> effects = { entry->ii_effect_1, entry->ii_effect_2, entry->ii_effect_3 };
 				for (auto effectId : effects)
 				{
 					if (const auto effect = EffectInfo::getInstance().getEntry(effectId))

@@ -50,7 +50,7 @@ namespace Main
 
 				Common::Network::Packet response;
 
-				Main::ClientData::RoomInfo joinInfo{ m_roomNumber - 1 };
+				Main::ClientData::RoomInfo joinInfo{ static_cast<uint16_t>(m_roomNumber - 1) };
 				response.setTcpHeader(session->getId(), Common::Enums::NO_ENCRYPTION);
 				response.setCommand(140, 0, 0, 0);
 				response.setData(reinterpret_cast<std::uint8_t*>(&joinInfo), sizeof(joinInfo));

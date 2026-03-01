@@ -1,8 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
-
 project(MainServer LANGUAGES CXX)
-
-
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -11,14 +7,8 @@ file(GLOB_RECURSE MAIN_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_CURRENT_LIST_DIR}/*.cpp
 )
 
-file(GLOB_RECURSE MAIN_HEADERS CONFIGURE_DEPENDS
-    ${CMAKE_CURRENT_LIST_DIR}/*.h
-    ${CMAKE_CURRENT_LIST_DIR}/*.hpp
-)
-
 add_executable(MainServer
     ${MAIN_SOURCES}
-    ${MAIN_HEADERS}
 )
 
 find_package(CURL REQUIRED)
@@ -28,17 +18,15 @@ target_include_directories(MainServer
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-find_path(JWT_CPP_INCLUDE_DIRS "jwt-cpp/base.h")
-target_include_directories(MainServer PUBLIC ${JWT_CPP_INCLUDE_DIRS})
-
 target_link_libraries(MainServer
     PUBLIC
         Common
         mariadb-connector-cpp::mariadb-connector-cpp
         OpenSSL::SSL
         OpenSSL::Crypto
+        z
         jwt-cpp::jwt-cpp
-        #cryptopp::cryptopp
+        bcrypt
         range-v3::range-v3
         Boost::json
         ${CURL_LIBRARIES}

@@ -97,7 +97,12 @@ PACK_PUSH(1)
 			explicit WeeklyReward(const std::array<std::uint32_t, 7>& items)
 				: items{ items }
 			{
-				day = std::chrono::weekday{ std::chrono::floor<std::chrono::days>(std::chrono::current_zone()->to_local(std::chrono::system_clock::now())) }.iso_encoding();
+				const std::time_t tt = std::time(nullptr);
+				const std::tm * local = std::localtime(&tt);
+
+				uint64_t w = local->tm_wday;      // 0=Sunday..6=Saturday
+				day = ( w == 0 ? 7 : w);      // ISO 1=Mon..7=Sun
+				//day = std::chrono::weekday{ std::chrono::floor<std::chrono::days>(std::chrono::current_zone()->to_local(std::chrono::system_clock::now())) }.iso_encoding();
 			}
 		};
 PACK_POP()
@@ -113,10 +118,14 @@ PACK_PUSH(1)
 			explicit MonthlyReward(const std::array<std::uint32_t, 32>& items)
 				: items{ items }
 			{
-				auto now = std::chrono::floor<std::chrono::days>(std::chrono::current_zone()->to_local(std::chrono::system_clock::now()));
-				std::chrono::year_month_day ymd{ now };
-				month = static_cast<std::uint64_t>(unsigned{ ymd.month() }); 
-				day = static_cast<std::uint64_t>(unsigned{ ymd.day() });   
+				const std::time_t tt = std::time(nullptr);
+				const std::tm * local = std::localtime(&tt);
+				month = local->tm_mon + 1;
+				day = local->tm_mday;
+				//auto now = std::chrono::floor<std::chrono::days>(std::chrono::current_zone()->to_local(std::chrono::system_clock::now()));
+				//std::chrono::year_month_day ymd{ now };
+				//month = static_cast<std::uint64_t>(unsigned{ ymd.month() });
+				//day = static_cast<std::uint64_t>(unsigned{ ymd.day() });
 			}
 		};
 PACK_POP()
