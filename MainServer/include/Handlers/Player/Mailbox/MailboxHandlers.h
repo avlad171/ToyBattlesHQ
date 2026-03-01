@@ -41,14 +41,14 @@ namespace Main
 				auto targetSession = sessionsManager.findSessionByName(mailboxData.nickname);
 				if (!targetSession)
 				{
-					Main::Structures::Mailbox mailbox{ 0, static_cast<time32_t>(std::time(0)) };
+					Main::Structures::Mailbox mailbox{ 0, static_cast<uint32_t>(std::time(0)) };
 					std::memcpy(mailbox.nickname, mailboxData.nickname, Common::Constants::maxNicknameSize);
 					std::memcpy(mailbox.message, mailboxData.message, request.getDataSize() - Common::Constants::maxNicknameSize);
 					session->sendOfflineMailbox(mailbox);
 				}
 				else
 				{
-					Main::Structures::Mailbox mailbox{ targetSession->getAccountInfo().accountID, static_cast<time32_t>(std::time(0)) };
+					Main::Structures::Mailbox mailbox{ targetSession->getAccountInfo().accountID, static_cast<uint32_t>(std::time(0)) };
 					std::memcpy(mailbox.nickname, session->getAccountInfo().nickname, Common::Constants::maxNicknameSize);
 					std::memcpy(mailbox.message, mailboxData.message, request.getDataSize() - Common::Constants::maxNicknameSize);
 					session->sendOnlineMailbox(targetSession, mailbox);

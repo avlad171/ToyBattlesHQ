@@ -28,9 +28,17 @@
 
 void printInitialInformation()
 {
-	auto const time = std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
-	auto const time_s = std::format("{:%Y-%m-%d %X}", time);
-	Utils::Logger::log("Main server initialized on " + time_s);
+	auto now = std::chrono::system_clock::now();
+	std::time_t t = std::chrono::system_clock::to_time_t(now);
+
+	std::tm tm{};
+#if defined(_WIN32)
+	localtime_s(&tm, &t);
+#else
+	localtime_r(&t, &tm);
+#endif
+
+	std::cout << "[Info] Main server initialized on " << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << "\n\n";
 }
 
 void initializeCdbFiles()

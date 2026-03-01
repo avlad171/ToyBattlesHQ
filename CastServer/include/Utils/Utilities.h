@@ -37,7 +37,7 @@ namespace Cast
 				if constexpr (Warn)
 				{
 					std::cerr << "[parseDataFromEnd warning] at " << location.file_name()
-						<< ":" << location.line() << " — offsetFromEnd (" << offsetFromEnd
+						<< ":" << location.line() << " offsetFromEnd (" << offsetFromEnd
 						<< ") + sizeof(T) (" << sizeof(T) << ") exceeds data size (" << dataSize << ")\n";
 				}
 				return T{};

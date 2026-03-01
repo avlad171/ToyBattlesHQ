@@ -37,6 +37,7 @@ endif()
 find_package(OpenSSL REQUIRED)
 find_package(range-v3 CONFIG REQUIRED)
 find_package(CURL REQUIRED)
+add_subdirectory(${CMAKE_SOURCE_DIR}/ExternalLibraries/jwt-cpp/)
 
 if(APPLE)
     find_package(mariadb-connector-cpp CONFIG REQUIRED)
@@ -51,9 +52,4 @@ include_directories(PUBLIC ${CMAKE_SOURCE_DIR}/ExternalLibraries)
 add_subdirectory(Common)
 add_subdirectory(AuthServer)
 add_subdirectory(CastServer)
-#add_subdirectory(MainServer)
-
-add_executable(mersenne testRng.cpp)
-
-add_executable(brute 2fabruteforce.cpp)
-target_link_libraries(brute Common)
+add_subdirectory(MainServer)

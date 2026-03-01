@@ -1,9 +1,7 @@
 project(CastServer LANGUAGES CXX)
-
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-
 
 file(GLOB_RECURSE CAST_SOURCES CONFIGURE_DEPENDS 
 	${CMAKE_CURRENT_LIST_DIR}/*.cpp
@@ -12,7 +10,6 @@ file(GLOB_RECURSE CAST_SOURCES CONFIGURE_DEPENDS
 add_executable(CastServer
     ${CAST_SOURCES}
 )
-
 
 target_include_directories(CastServer PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/include

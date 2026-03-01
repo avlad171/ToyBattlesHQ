@@ -25,14 +25,29 @@ namespace Main
 
         inline bool isWithinLastMinute(const std::string& timestampUtc)
         {
+            std::tm tm{};
             std::istringstream iss(timestampUtc);
+            iss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
+            if (iss.fail()) return false;
+
+            std::time_t tt = timegm(&tm); // interpret as UTC
+            auto loggedTime = std::chrono::system_clock::from_time_t(tt);
+
+            auto now = std::chrono::time_point_cast<std::chrono::seconds>(
+                std::chrono::system_clock::now());
+
+            auto diff = now - loggedTime;
+            if (diff < std::chrono::seconds(0)) return false;
+
+            return diff <= std::chrono::minutes(1);
+            /*std::istringstream iss(timestampUtc);
             std::chrono::utc_time<std::chrono::seconds> loggedTime;
             iss >> std::chrono::parse("%Y-%m-%d %H:%M:%S", loggedTime);
             if (iss.fail()) return false;
             auto now = std::chrono::floor<std::chrono::seconds>(std::chrono::utc_clock::now());
             auto diff = now - loggedTime;
             if (diff < std::chrono::seconds(0)) return false;
-            return diff <= std::chrono::minutes(1);
+            return diff <= std::chrono::minutes(1);*/
         }
 
         inline std::optional<Main::Structures::AccountInfo> handleAuthorization(const Common::Network::Packet& request, std::shared_ptr<Main::Network::Session> session,
