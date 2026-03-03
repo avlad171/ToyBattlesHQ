@@ -342,6 +342,9 @@ class ShopManager(QWidget):
         if item_id in self.vendor_lookup:
             del self.vendor_lookup[item_id]
 
+        self.buildLookups()
+        self.relevant_items = []
+        self.refreshItemDisplay()
         self.refreshRelevantItems()
         showToast(self, "Vendor entry removed.")
 
