@@ -48,7 +48,7 @@ Then:
 
 ### Install requirements for python and generate executable
 1) `python -m pip install -r requirements.txt`
-2) `pyinstaller --onefile --windowed --name "CgdManager" ImportCgdDialog.py`
+2) `python -m PyInstaller --onefile --windowed --name CgdManager --add-binary "DipMaker.exe;." ImportCgdDialog.py`
 The final executable will be inside the new `dist` folder. This is a standalone exe that you can run directly.
 
 ## Overview
