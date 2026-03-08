@@ -154,7 +154,7 @@ namespace Common
                 CryptoPP::StringSource ss(hex,true,new CryptoPP::HexDecoder(new CryptoPP::StringSink(decoded)));
 
                 if (decoded.size() != 32)
-                    std::nullopt;
+                    return std::nullopt;
 
                 return decoded;
             }
