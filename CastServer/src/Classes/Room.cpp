@@ -398,8 +398,13 @@ namespace Cast
 			if (m_pendingPositions.empty()) return;
 
 			static std::array<std::uint8_t, 2048> batchBuffer;
-			std::size_t totalSize = 0;
+			std::size_t totalSize = sizeof(m_roomTick);
+			std::memcpy(batchBuffer.data(), &m_roomTick, sizeof(m_roomTick));
+
 			std::size_t count = 0;
+
+			::Utils::Logger::log("Room " + std::to_string(m_roomNumber) + " tick " + std::to_string(m_roomTick) +
+				",flushing " + std::to_string(m_pendingPositions.size()) + " player updates", ::Utils::LogType::Info, "Room::flushPendingPositions");
 
 			for (auto& pkt : m_pendingPositions)
 			{
@@ -411,9 +416,9 @@ namespace Cast
 			}
 
 			//const std::uint32_t serverTick = m_roomTick - (((Common::Utils::getCurrentTimestampMs() - timeSinceLastRestart) / 10) - m_roomTick);
-			std::memmove(batchBuffer.data() + sizeof(m_roomTick), batchBuffer.data(), totalSize);
-			std::memcpy(batchBuffer.data(), &m_roomTick, sizeof(m_roomTick));
-			totalSize += sizeof(m_roomTick);
+			//std::memmove(batchBuffer.data() + sizeof(m_roomTick), batchBuffer.data(), totalSize);
+			//std::memcpy(batchBuffer.data(), &m_roomTick, sizeof(m_roomTick));
+			//totalSize += sizeof(m_roomTick);
 			static Common::Network::UnecryptedPacket batch(2048, 322, static_cast<uint32_t>(count));
 			batch.setOption(static_cast<uint32_t>(count));
 			batch.setData(batchBuffer.data(), static_cast<uint16_t>(totalSize));
