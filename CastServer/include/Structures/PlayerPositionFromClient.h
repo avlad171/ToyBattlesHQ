@@ -127,7 +127,8 @@ PACK_PUSH(1)
         {
             PositionStruct position;
             DirectionStruct direction;
-            std::uint32_t matchTick{};
+            std::uint32_t matchTick : 24 = 0;
+            std::uint32_t bullet : 8 = 0;
             std::uint32_t animation1 : 7 = 0;
             std::uint32_t animation2 : 6 = 0;
             std::uint32_t weapon : 4 = 0;

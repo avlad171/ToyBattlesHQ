@@ -31,7 +31,6 @@ namespace Cast
             if (playerPositionFromClient.isBad()) return;
             room->m_roomTick = playerPositionFromClient.matchTick;
 
-
             if (room->m_isInvisible || session->m_isInvisible)
             {
                 playerPositionFromClient.position.positionZ = 0;
