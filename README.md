@@ -1,4 +1,4 @@
-# Notice
+# Notice - Temporary Hiatus
 This documentation is currently behind the latest changes.
 - Documentation explaining the new changes is completely missing.
 - The setup documentation for new features is also missing.
