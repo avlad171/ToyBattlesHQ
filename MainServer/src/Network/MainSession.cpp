@@ -24,6 +24,7 @@
 
 #include <source_location>
 #include <ConstantDatabase/Structures/CdbCollectionInfo.h>
+#include "../../include/Detail/CdbUtils.h"
 #include "Macros.h"
 #include <cstring> 
 
@@ -63,6 +64,7 @@ namespace Main
 
 			Common::Protocol::TcpHeader header;
 			Common::Cryptography::Crypt cryptography;
+			
 			cryptography.KeySetup(0);
 			cryptography.RC5Decrypt32(reinterpret_cast<int32_t*>(m_reader.data()), &header, sizeof(Common::Protocol::TcpHeader));
 
@@ -1763,6 +1765,21 @@ namespace Main
 
 			auto& nonEquippedItems = playerItems.first;
 			auto& equippedItems = playerItems.second;
+
+			// Filter out invalid items that don't exist in CGD (Constant Database)
+			std::erase_if(nonEquippedItems, [](const Main::Structures::Item& item)
+			{
+				return !Main::CdbUtils::itemExists(item.itemId.itemId);
+			});
+
+			// Also filter equipped items
+			for (auto& [characterID, items] : equippedItems)
+			{
+				std::erase_if(items, [](const Main::Structures::EquippedItem& item)
+				{
+					return !Main::CdbUtils::itemExists(item.id);
+				});
+			}
 
 			m_packet.setTcpHeader(m_id, Common::Enums::USER_LARGE_ENCRYPTION);
 
