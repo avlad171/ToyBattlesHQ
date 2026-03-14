@@ -1,4 +1,11 @@
-# Notice - Temporary Hiatus
+# Support the project
+
+If you like this project, consider sponsoring me to allow further work. Your contribution is really appreciated!
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-GitHub-pink?logo=github)](https://github.com/sponsors/SoWeBegin)
+
+
+# Notice
 This documentation is currently behind the latest changes.
 - Documentation explaining the new changes is completely missing.
 - The setup documentation for new features is also missing.
