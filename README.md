@@ -102,5 +102,4 @@ Adding this new documentation may take a while, so bear with us...
 
 ## Contacts
 - For info, contributions or bug reports related to the emulator, please open an issue on this repository.
-- For general inquiries, contact us at support@toybattles.net
 - For ToyBattles related issues, contact us on [our discord server](https://discord.gg/toybattles) 
