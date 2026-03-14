@@ -1,11 +1,10 @@
-# Support the project
+# Support the emulator for MicroVolts
 
-If you like this project, consider sponsoring me to allow further work. Your contribution is really appreciated!
-
+Your support keeps this project going. If you'd like to contribute, sponsoring on GitHub is the best way. Thanks for being part of it!
 [![Sponsor](https://img.shields.io/badge/Sponsor-GitHub-pink?logo=github)](https://github.com/sponsors/SoWeBegin)
 
 
-# Notice
+## Notice
 This documentation is currently behind the latest changes.
 - Documentation explaining the new changes is completely missing.
 - The setup documentation for new features is also missing.
