@@ -9,7 +9,6 @@ add_executable(CastServer
     ${CAST_SOURCES}
 )
 
-
 target_include_directories(CastServer PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
@@ -43,7 +42,7 @@ else()
 endif()
 
 if (WIN32)
-    target_link_libraries(MainServer PUBLIC wsock32 ws2_32)
+    target_link_libraries(CastServer PUBLIC wsock32 ws2_32)
 endif()
 
 set_target_properties(CastServer PROPERTIES
