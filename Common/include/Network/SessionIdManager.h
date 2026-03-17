@@ -11,11 +11,11 @@ class SessionIdManager
 {
 private:
 	std::stack<std::size_t> m_availableIDs;
-	std::unordered_set<std::size_t> m_usedIDs;
+	//std::unordered_set<std::size_t> m_usedIDs;
 	std::size_t m_maxSessionIDs;
 
 public:
-	SessionIdManager(std::size_t maxIDs) : m_maxSessionIDs(maxIDs)
+	explicit SessionIdManager(const std::size_t maxIDs) : m_maxSessionIDs(maxIDs)
 	{
 		for (std::size_t i = 1; i <= m_maxSessionIDs; ++i)
 		{
@@ -32,21 +32,24 @@ public:
 
 		const std::size_t newID = m_availableIDs.top();
 		m_availableIDs.pop();
-		m_usedIDs.insert(newID);
+		//m_usedIDs.insert(newID);
 
 		std::cout << "Added new SessionID: " << newID << '\n';
 		return newID;
 	}
 
-	void releaseSessionID(std::size_t id)
+	void releaseSessionID(const std::size_t id)
 	{
+		m_availableIDs.push(id);
+		std::cout << "Removed sessionID: " << id << '\n';
+		/*
 		auto it = m_usedIDs.find(id);
 		if (it != m_usedIDs.end())
 		{
 			m_usedIDs.erase(it);
 			m_availableIDs.push(id);
 			std::cout << "Removed sessionID: " << id << '\n';
-		}
+		}*/
 	}
 };
 

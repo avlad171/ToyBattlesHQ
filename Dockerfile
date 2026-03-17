@@ -21,7 +21,8 @@ RUN apt-get update && apt-get install -y \
     wget \
     libboost-all-dev \
     librange-v3-dev \
-    libcurl4-openssl-dev
+    libcurl4-openssl-dev \
+    libasio-dev
 
 # install ninja
 RUN wget -qO /usr/local/bin/ninja.gz https://github.com/ninja-build/ninja/releases/latest/download/ninja-linux.zip
@@ -55,8 +56,6 @@ COPY ./mariadb-connector-cpp-config.cmake /usr/lib/x86_64-linux-gnu/cmake/mariad
 #on macos you use /usr/local/lib/cmake
 COPY ./microvolts-db.sql .
 COPY ./RewardItemIDs.txt .
-
-RUN apt-get install -y libasio-dev
 
 # Build project
 RUN cmake -DCMAKE_BUILD_TYPE=Release \
